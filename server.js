@@ -6,7 +6,9 @@ const debug = require( "debug" )( "Giggle-Node : server.js" );
 const app = new express();
 const PORT = process.env.PORT;
 
-let router = require( "./src/Routers/UserRouter" );
+const CoreServiceRouter = require( "./src/Servers/CoreServiceRouter" );
+app.use( new CoreServiceRouter() );
+
 
 const serverCallBack = function ()
 {

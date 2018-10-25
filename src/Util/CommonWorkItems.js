@@ -28,12 +28,15 @@ class CommonWorkItems
 
   static ValidateStringIsNotNullOrEmpty( str )
   {
+    CommonWorkItems.ValidateType( str, String );
     return str === null || str.length === 0;
   }
 
   static ValidateStringIsNotNullOrWhiteSpace( str )
   {
-    if ( this.ValidateStringIsNotNullOrEmpty( str ) )
+    CommonWorkItems.ValidateType( str, String );
+
+    if ( CommonWorkItems.ValidateStringIsNotNullOrEmpty( str ) )
     {
       return true;
     }
@@ -42,8 +45,7 @@ class CommonWorkItems
 
     for ( let i = 0; i < str.length; i++ )
     {
-      let character = str[ i ];
-      if ( character != " " )
+      if ( str[ i ] != " " )
       {
         isAllWhiteSpace = false;
       }
@@ -54,7 +56,25 @@ class CommonWorkItems
 
   static ValidateType( classInstance, classConstructer )
   {
+    if ( classInstance === null )
+    {
+      throw new ReferenceError( "classInstance" );
+    }
 
+    if ( classConstructer === null )
+    {
+      throw new ReferenceError( "classConstructor" );
+    }
+
+    if ( typeof classConstructer !== "function" )
+    {
+      throw new TypeError( "classConstructor" );
+    }
+
+    if ( !classInstance instanceof classConstructer )
+    {
+      throw new TypeError( "classInstance" );
+    }
   }
 
 

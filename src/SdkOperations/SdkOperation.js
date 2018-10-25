@@ -11,10 +11,18 @@ the express router.
 
 class SdkOperation
 {
+    constructor()
+    {
+        this.middleWareStack = new Array();
+    }
+
     Invoke()
     {
+        return function ( request, response, next )
+        {
 
+        }
     }
 }
 
-module.export = SdkOperation;
+module.exports = SdkOperation;
