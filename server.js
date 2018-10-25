@@ -6,9 +6,9 @@ const debug = require( "debug" )( "Giggle-Node : server.js" );
 const app = new express();
 const PORT = process.env.PORT;
 
-const serverCallBack = function()
+const serverCallBack = function ()
 {
-  debug(`Server initialized on port : ${PORT}`);
+  debug( `Server initialized on port : ${ PORT }` );
 }
 
-app.listen(PORT, serverCallBack);
+app.listen( PORT, serverCallBack );
