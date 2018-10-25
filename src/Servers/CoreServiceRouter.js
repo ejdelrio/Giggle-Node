@@ -14,6 +14,7 @@ const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/
 const SdkOperation = require( "../SdkOperations/SdkOperation" );
 const UserSignupSdkOperation = require( "../SdkOperations/Operations/UserSignupSdkOperation" );
 const UserLoginSdkOperation = require( "../SdkOperations/Operations/UserLoginSdkOperation" );
+const PutUserSdkOperation = require( "../SdkOperations/Operations/PutUserSdkOperation.js" );
 
 //REST OPERATION CONSTANTS
 //=======================================================
@@ -53,6 +54,8 @@ class CoreServiceRouter extends Router
 
         //Attempts to get a JSON signed web token by loging in with user credentials
         DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserLoginSdkOperation() );
+
+        DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutUserSdkOperation() );
     }
 }
 
