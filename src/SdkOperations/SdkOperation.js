@@ -1,5 +1,7 @@
 "use strict"
 
+const NotImplementedError = require( "../Errors/NotImplementedError" );
+
 /*
 ==================================================================
 Purpose : Servers as the base temlplate for API operations. Each API route
@@ -8,7 +10,7 @@ the express router.
 ==================================================================
 */
 
-
+// TO DO : Implementsome methods that will be used by all sdk operations. Database stuff and etc.
 class SdkOperation
 {
     constructor()
@@ -18,10 +20,7 @@ class SdkOperation
 
     Invoke()
     {
-        return function ( request, response, next )
-        {
-
-        }
+        throw new NotImplementedError( "Cannot invoke SdkOperation base class" );
     }
 }
 

@@ -13,6 +13,7 @@ const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/
 //=======================================================
 const SdkOperation = require( "../SdkOperations/SdkOperation" );
 const UserSignupSdkOperation = require( "../SdkOperations/Operations/UserSignupSdkOperation" );
+const UserLoginSdkOperation = require( "../SdkOperations/Operations/UserLoginSdkOperation" );
 
 //REST OPERATION CONSTANTS
 //=======================================================
@@ -35,7 +36,7 @@ class CoreServiceRouter extends Router
             -sdkOperationInstance : a class instance that must inherit from SdkOperation. Contains an invoke method which returns a calback
             and a stack of middleware functions which may or may not be empty
         */
-        this.DefineEndpoint = function ( restOperationType, coreServicePath, sdkOpertaionInstance )
+        const DefineEndpoint = ( restOperationType, coreServicePath, sdkOpertaionInstance ) =>
         {
             ValidateType( restOperationType, String );
             ValidateType( coreServicePath, String );
@@ -48,7 +49,10 @@ class CoreServiceRouter extends Router
         }
 
         //Creates an endpoint to allow users to signup, storing the data in a sequal database
-        this.DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserSignupSdkOperation() );
+        DefineEndpoint( PostOperation, CoreServicePaths.UserSignupPath, new UserSignupSdkOperation() );
+
+        //Attempts to get a JSON signed web token by loging in with user credentials
+        DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserLoginSdkOperation() );
     }
 }
 
