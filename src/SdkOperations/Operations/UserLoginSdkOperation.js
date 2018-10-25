@@ -11,9 +11,9 @@ class UserLoginSdkOperation extends SdkOperation
 
     Invoke()
     {
-        return function ( req, res, next )
+        return function ( request, response, next )
         {
-
+            return next();
         }
     }
 }

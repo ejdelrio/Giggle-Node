@@ -23,7 +23,6 @@ const PostOperation = new String( "post" );
 const PutOperation = new String( "put" );
 const DeleteOperaiton = new String( "delete" );
 
-
 class CoreServiceRouter extends Router
 {
     constructor()

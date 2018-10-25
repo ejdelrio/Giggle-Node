@@ -2,12 +2,14 @@
 
 const SdkOperation = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : UserSignupSdkOperation" );
+const { json } = require( "body-parser" );
 
 class UserSignUpSdkOperation extends SdkOperation
 {
     constructor()
     {
         super();
+        this.middleWareStack.push( json );
     }
 
     Invoke()
