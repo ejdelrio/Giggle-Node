@@ -55,6 +55,7 @@ class CoreServiceRouter extends Router
         //Attempts to get a JSON signed web token by loging in with user credentials
         DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserLoginSdkOperation() );
 
+        // Modifies existing user schema
         DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutUserSdkOperation() );
     }
 }
