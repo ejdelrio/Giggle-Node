@@ -9,10 +9,13 @@ class UserRouter extends Router
 {
   constructor()
   {
+    super()
+    debug( "Initializing User Router" );
     this.get( userEndpoint, this.getUserCallback );
     this.post( userEndpoint, this.postNewUserCallback );
     this.put( userEndpoint, this.putUserCallback );
     this.delete( userEndpoint, this.deleteUserCallback );
+
   }
 
   /*
@@ -31,7 +34,7 @@ class UserRouter extends Router
   Returns : undefined
   =======================================
   */
-  static postNewUserCallback( request, response, next )
+  postNewUserCallback( request, response, next )
   {
     // TODO : Implement
   }
@@ -54,17 +57,17 @@ class UserRouter extends Router
   Returns : undefined
   =======================================
   */
-  static getUserCallback( request, response, next )
+  getUserCallback( request, response, next )
   {
     // TODO : Implement
   }
 
-  static deleteUserCallback( request, response, next )
+  deleteUserCallback( request, response, next )
   {
     // TODO : Implement
   }
 
-  static putUserCallback( request, response, next )
+  putUserCallback( request, response, next )
   {
     //TODO : Implement
   }
