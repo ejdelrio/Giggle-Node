@@ -4,9 +4,10 @@ const debug = require( "debug" )( "Giggle-Node : UserRouter.js" );
 const dotenv = require( "dotenv" ).config();
 const Router = require( "express" ).Router;
 const createError = require( "http-errors" );
-const userEndpoint = "/api/user";
 const { BasicAuthentication, BearerAuthentication } =
   require( "../Util/CommonWorkItems" );
+
+const basicUserEndpoint = "/api/user";
 
 class UserRouter extends Router
 {
@@ -14,10 +15,10 @@ class UserRouter extends Router
   {
     super()
     debug( "Initializing User Router" );
-    this.get( userEndpoint, BasicAuthentication, this.getUserCallback );
-    this.post( userEndpoint, BearerAuthentication, this.postNewUserCallback );
-    this.put( userEndpoint, BearerAuthentication, this.putUserCallback );
-    this.delete( userEndpoint, BearerAuthentication, this.deleteUserCallback );
+    this.get( basicUserEndpoint, BasicAuthentication, this.getUserCallback );
+    this.post( basicUserEndpoint, BearerAuthentication, this.postNewUserCallback );
+    this.put( basicUserEndpoint, BearerAuthentication, this.putUserCallback );
+    this.delete( basicUserEndpoint, BearerAuthentication, this.deleteUserCallback );
 
   }
 
