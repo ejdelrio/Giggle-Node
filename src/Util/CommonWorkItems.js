@@ -25,6 +25,39 @@ class CommonWorkItems
     //TODO : Implement
     debug( "Exiting ErrorHandler" );
   }
+
+  static ValidateStringIsNotNullOrEmpty( str )
+  {
+    return str === null || str.length === 0;
+  }
+
+  static ValidateStringIsNotNullOrWhiteSpace( str )
+  {
+    if ( this.ValidateStringIsNotNullOrEmpty( str ) )
+    {
+      return true;
+    }
+
+    let isAllWhiteSpace = true;
+
+    for ( let i = 0; i < str.length; i++ )
+    {
+      let character = str[ i ];
+      if ( character != " " )
+      {
+        isAllWhiteSpace = false;
+      }
+    }
+
+    return isAllWhiteSpace;
+  }
+
+  static ValidateType( classInstance, classConstructer )
+  {
+
+  }
+
+
 }
 
 module.exports = CommonWorkItems;

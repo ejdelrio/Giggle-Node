@@ -10,7 +10,7 @@ let router = require( "./src/Routers/UserRouter" );
 
 const serverCallBack = function ()
 {
-  debug( `Server initialized on port : ${ PORT }` );
+  debug( `Server initialized on port : ${PORT}` );
 }
 
 app.listen( PORT, serverCallBack );
