@@ -3,9 +3,6 @@
 const SdkOperation = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : UserSignupSdkOperation" );
 
-let x = new SdkOperation();
-console.log( x )
-
 class UserSignUpSdkOperation extends SdkOperation
 {
     constructor()

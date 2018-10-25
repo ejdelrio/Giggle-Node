@@ -9,4 +9,4 @@ class NotImplementedError extends Error
     }
 }
 
-module.export = NotImplementedError;
+module.exports = NotImplementedError;

@@ -27,6 +27,14 @@ class CoreServiceRouter extends Router
     constructor()
     {
         super();
+        /*
+        Operation : Validates parameters than defines an endpoint, passing a stack of middleware callbacks and the operation callback
+        Parameters:
+            -restOperationType : POST, PUT, GET or DELETE calls
+            -coreServicePath : The plain text api anedpoint string
+            -sdkOperationInstance : a class instance that must inherit from SdkOperation. Contains an invoke method which returns a calback
+            and a stack of middleware functions which may or may not be empty
+        */
         this.DefineEndpoint = function ( restOperationType, coreServicePath, sdkOpertaionInstance )
         {
             ValidateType( restOperationType, String );
@@ -39,6 +47,7 @@ class CoreServiceRouter extends Router
             this[ restOperationType ]( coreServicePath, ...sdkOpertaionInstance.middleWareStack, sdkOpertaionInstance.Invoke() );
         }
 
+        //Creates an endpoint to allow users to signup, storing the data in a sequal database
         this.DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserSignupSdkOperation() );
     }
 }

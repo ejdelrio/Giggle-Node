@@ -2,27 +2,37 @@
 
 const debug = require( "debug" )( "Giggle-Node : CommonWorkItems.js" );
 const dotenv = require( "dotenv" ).config();
+const NotImplementedError = require( "../Errors/NotImplementedError" )
 
 class CommonWorkItems
 {
+  // Middleware for Bearer (token) based authentication
   static BearerAuthentication( request, response, next )
   {
     debug( "Entering BearerAuthentication" );
-    //TODO : Implement
+
+    throw new NotImplementedError( "BearerAuthentication" );
+
     debug( "Exiting BearerAuthentication" );
   }
 
+  // Middleware for basic authentication
   static BasicAuthentication( request, response, next )
   {
     debug( "Entering BasicAuthentication" );
-    //TODO : Implement
+
+    throw new NotImplementedError( "BasicAuthentication" );
+
     debug( "Exiting BasicAuthentication" )
   }
 
+  // Error handling middleware at the end of every call to handle exceptions
   static ErrorHandler( request, response, next )
   {
     debug( "Entering ErrorHandler" );
-    //TODO : Implement
+
+    throw new NotImplementedError( "ErrorHandler" );
+
     debug( "Exiting ErrorHandler" );
   }
 
