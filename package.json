@@ -17,5 +17,15 @@
   "bugs": {
     "url": "https://github.com/ejdelrio/Giggle-Node/issues"
   },
-  "homepage": "https://github.com/ejdelrio/Giggle-Node#readme"
+  "homepage": "https://github.com/ejdelrio/Giggle-Node#readme",
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "debug": "^4.1.0",
+    "mocha": "^5.2.0"
+  }
 }
