@@ -1,6 +1,6 @@
 "use strict";
 
-const SdkOperation = require( "../SdkOperation" );
+const { SdkOperation } = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : UserSignupSdkOperation" );
 const { json } = require( "body-parser" );
 
@@ -14,6 +14,7 @@ class UserSignUpSdkOperation extends SdkOperation
 
     Invoke()
     {
+        debug( "Invoking UserSignupSdkOperation" );
         return function ( request, response, next )
         {
             next();
@@ -21,4 +22,4 @@ class UserSignUpSdkOperation extends SdkOperation
     }
 }
 
-module.exports = UserSignUpSdkOperation;
+module.exports = { UserSignUpSdkOperation };

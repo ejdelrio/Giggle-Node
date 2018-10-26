@@ -24,4 +24,4 @@ class SdkOperation
     }
 }
 
-module.exports = SdkOperation;
+module.exports = { SdkOperation };
