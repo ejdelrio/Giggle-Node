@@ -41,8 +41,15 @@ class CoreServiceRouter extends Router
             ValidateType( coreServicePath, String );
             ValidateType( sdkOpertaionInstance, SdkOperation );
             ValidateType( sdkOpertaionInstance.middleWareStack, Array );
-            ValidateStringIsNotNullOrWhiteSpace( restOperationType );
-            ValidateStringIsNotNullOrWhiteSpace( coreServicePath );
+
+            if ( ValidateStringIsNotNullOrWhiteSpace( restOperationType ) )
+            {
+                throw new ReferenceError( "restOperationType : Is null, empty or whitespace" );
+            }
+            if ( ValidateStringIsNotNullOrWhiteSpace( coreServicePath ) )
+            {
+                throw new ReferenceError( "coreServicePath : Is null, empty or whitespace" );
+            }
 
             this[ restOperationType ]( coreServicePath, ...sdkOpertaionInstance.middleWareStack, sdkOpertaionInstance.Invoke() );
         }
