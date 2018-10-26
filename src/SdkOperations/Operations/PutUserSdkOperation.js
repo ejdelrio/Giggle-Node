@@ -14,9 +14,10 @@ class PutUserSdkOperation extends SdkOperation
 
     Invoke()
     {
-        debug( "Invoking PutUserSdkOperation" );
         return function ( request, response, next )
         {
+            debug( "Entering PutUserSdkOperation" );
+
             next();
         }
     }

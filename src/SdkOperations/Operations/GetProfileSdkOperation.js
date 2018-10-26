@@ -12,9 +12,10 @@ class GetProfileSdkOperation extends SdkOperation
 
     Invoke()
     {
-        debug( "Invoking GetProfileSdkOperation" );
         return function ( request, response, next )
         {
+            debug( "Entering GetProfileSdkOperation" );
+
             return next();
         }
     }

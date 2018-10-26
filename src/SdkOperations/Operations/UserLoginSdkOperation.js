@@ -12,9 +12,10 @@ class UserLoginSdkOperation extends SdkOperation
 
     Invoke()
     {
-        debug( "Invoking UserLoginSdkOperation" );
         return function ( request, response, next )
         {
+            debug( "Entering UserLoginSdkOperation" );
+
             return next();
         }
     }

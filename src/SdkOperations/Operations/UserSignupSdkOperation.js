@@ -14,9 +14,10 @@ class UserSignUpSdkOperation extends SdkOperation
 
     Invoke()
     {
-        debug( "Invoking UserSignupSdkOperation" );
         return function ( request, response, next )
         {
+            debug( "Entering UserSignupSdkOperation" );
+
             next();
         }
     }
