@@ -2,9 +2,9 @@
 
 const { SdkOperation } = require( "../SdkOperation" );
 const { json } = require( "body-parser" );
-const debug = require( "debug" )( "Giggle-Node : PutUserSdkOperation" );
+const debug = require( "debug" )( "Giggle-Node : PutClientSdkOperation" );
 
-class PutUserSdkOperation extends SdkOperation
+class PutClientSdkOperation extends SdkOperation
 {
     constructor()
     {
@@ -16,11 +16,11 @@ class PutUserSdkOperation extends SdkOperation
     {
         return function ( request, response, next )
         {
-            debug( "Entering PutUserSdkOperation" );
+            debug( "Entering PutClientSdkOperation" );
 
             next();
         }
     }
 }
 
-module.exports = { PutUserSdkOperation };
+module.exports = { PutClientSdkOperation };

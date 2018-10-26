@@ -1,9 +1,9 @@
 "use strict";
 
 const { SdkOperation } = require( "../SdkOperation" );
-const debug = require( "debug" )( "Giggle-Node : UserLoginSdkOperation" );
+const debug = require( "debug" )( "Giggle-Node : GetClientSdkOperation" );
 
-class UserLoginSdkOperation extends SdkOperation
+class GetClientSdkOperation extends SdkOperation
 {
     constructor()
     {
@@ -14,11 +14,11 @@ class UserLoginSdkOperation extends SdkOperation
     {
         return function ( request, response, next )
         {
-            debug( "Entering UserLoginSdkOperation" );
+            debug( "Entering GetClientSdkOperation" );
 
             return next();
         }
     }
 }
 
-module.exports = { UserLoginSdkOperation };
+module.exports = { GetClientSdkOperation };

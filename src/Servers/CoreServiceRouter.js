@@ -12,9 +12,9 @@ const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/
 //=======================================================
 const { SdkOperation } = require( "../SdkOperations/SdkOperation" );
 
-const { UserSignUpSdkOperation } = require( "../SdkOperations/Operations/UserSignupSdkOperation" );
-const { UserLoginSdkOperation } = require( "../SdkOperations/Operations/UserLoginSdkOperation" );
-const { PutUserSdkOperation } = require( "../SdkOperations/Operations/PutUserSdkOperation.js" );
+const { PostClientSdkOperation } = require( "../SdkOperations/Operations/PostClientSdkOperation" );
+const { GetClientSdkOperation } = require( "../SdkOperations/Operations/GetClientSdkOperation" );
+const { PutClientSdkOperation } = require( "../SdkOperations/Operations/PutClientSdkOperation.js" );
 
 const { GetProfileSdkOperation } = require( "../SdkOperations/Operations/GetProfileSdkOperation" );
 
@@ -60,20 +60,20 @@ class CoreServiceRouter extends Router
             }
             catch ( error )
             {
-                debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${ e.message }` );
+                debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${e.message}` );
                 throw error;
             }
 
         }
 
         //Creates an endpoint to allow users to signup, storing the data in a sequal database
-        DefineEndpoint( PostOperation, CoreServicePaths.UserSignupPath, new UserSignUpSdkOperation() );
+        DefineEndpoint( PostOperation, CoreServicePaths.UserSignupPath, new PostClientSdkOperation() );
 
         //Attempts to get a JSON signed web token by loging in with user credentials
-        DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new UserLoginSdkOperation() );
+        DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new GetClientSdkOperation() );
 
         // Modifies existing user schema
-        DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutUserSdkOperation() );
+        DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutClientSdkOperation() );
 
         DefineEndpoint( GetOperation, CoreServicePaths.BasicProfilePathWithId, new GetProfileSdkOperation() );
     }
