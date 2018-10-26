@@ -11,9 +11,13 @@ const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/
 //SDK OPERATION IMPORTS
 //=======================================================
 const SdkOperation = require( "../SdkOperations/SdkOperation" );
-const UserSignupSdkOperation = require( "../SdkOperations/Operations/UserSignupSdkOperation" );
-const UserLoginSdkOperation = require( "../SdkOperations/Operations/UserLoginSdkOperation" );
-const PutUserSdkOperation = require( "../SdkOperations/Operations/PutUserSdkOperation.js" );
+
+const { UserSignupSdkOperation } = require( "../SdkOperations/Operations/UserSignupSdkOperation" );
+const { UserLoginSdkOperation } = require( "../SdkOperations/Operations/UserLoginSdkOperation" );
+const { PutUserSdkOperation } = require( "../SdkOperations/Operations/PutUserSdkOperation.js" );
+
+const { GetProfileSdkOperation } = require( "../SdkOperations/Operations/GetProfileSdkOperation" );
+console.log( UserSignupSdkOperation );
 
 //REST OPERATION CONSTANTS
 //=======================================================
@@ -51,7 +55,16 @@ class CoreServiceRouter extends Router
                 throw new ReferenceError( "coreServicePath : Is null, empty or whitespace" );
             }
 
-            this[ restOperationType ]( coreServicePath, ...sdkOpertaionInstance.middleWareStack, sdkOpertaionInstance.Invoke() );
+            try
+            {
+                this[ restOperationType ]( coreServicePath, ...sdkOpertaionInstance.middleWareStack, sdkOpertaionInstance.Invoke() );
+            }
+            catch ( error )
+            {
+                debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${e.message}` );
+                throw error;
+            }
+
         }
 
         //Creates an endpoint to allow users to signup, storing the data in a sequal database
@@ -62,6 +75,8 @@ class CoreServiceRouter extends Router
 
         // Modifies existing user schema
         DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutUserSdkOperation() );
+
+        DefineEndpoint( GetOperation, CoreServicePaths.BasicProfilePathWithId, new GetProfileSdkOperation() );
     }
 }
 
