@@ -5,7 +5,8 @@
   "main": "Server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set DEBUG='Giggle : *' && node server.js"
+    "start": "DEBUG='Giggle-Node*' & node server.js",
+    "start_win": "set DEBUG=Giggle-Node* &  node server.js"
   },
   "repository": {
     "type": "git",

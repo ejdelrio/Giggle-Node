@@ -4,7 +4,7 @@ const express = require( "express" );
 const dotenv = require( "dotenv" ).config();
 const debug = require( "debug" )( "Giggle-Node : server.js" );
 const app = new express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 const CoreServiceRouter = require( "./src/Servers/CoreServiceRouter" );
 app.use( new CoreServiceRouter() );
