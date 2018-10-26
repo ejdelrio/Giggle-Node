@@ -3,10 +3,9 @@
 const express = require( "express" );
 const debug = require( "debug" )( "Giggle-Node : CoreServiceRouter.js" );
 const dotenv = require( "dotenv" ).config();
-
 const { Router } = express;
-const CoreServicePaths = require( "./CoreServicePaths" );
 
+const CoreServicePaths = require( "./CoreServicePaths" );
 const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/CommonWorkItems" );
 
 //SDK OPERATION IMPORTS
