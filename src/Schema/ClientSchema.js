@@ -72,6 +72,8 @@ class ClientSchema extends Model
                 to: "subscription.clientOwnerId"
             }
         }
+
+        return subscriptionMapping
     }
 
 }
