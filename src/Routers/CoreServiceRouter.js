@@ -5,8 +5,9 @@ const debug = require( "debug" )( "Giggle-Node : CoreServiceRouter.js" );
 const dotenv = require( "dotenv" ).config();
 const { Router } = express;
 
-const CoreServicePaths = require( "./CoreServicePaths" );
+const { CoreServicePaths } = require( "./CoreServicePaths" );
 const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/CommonWorkItems" );
+
 
 //SDK OPERATION IMPORTS
 //=======================================================
@@ -15,7 +16,6 @@ const { SdkOperation } = require( "../SdkOperations/SdkOperation" );
 const { PostClientSdkOperation } = require( "../SdkOperations/Operations/PostClientSdkOperation" );
 const { GetClientSdkOperation } = require( "../SdkOperations/Operations/GetClientSdkOperation" );
 const { PutClientSdkOperation } = require( "../SdkOperations/Operations/PutClientSdkOperation.js" );
-
 const { GetProfileSdkOperation } = require( "../SdkOperations/Operations/GetProfileSdkOperation" );
 
 //REST OPERATION CONSTANTS
@@ -31,10 +31,11 @@ class CoreServiceRouter extends Router
     {
         super();
         /*
-        Operation : Validates parameters than defines an endpoint, passing a stack of middleware callbacks and the operation callback
+        Function : DefineEndpoint
+        Purpose : Validates parameters than defines an endpoint, passing a stack of middleware callbacks and the operation callback
         Parameters:
-            -restOperationType : POST, PUT, GET or DELETE calls
-            -coreServicePath : The plain text api anedpoint string
+            -restOperationType : POST, PUT, GET or DELETE calls. Use string constants
+            -coreServicePath : The plain text api enddpoint string. Define in CoreServicePaths
             -sdkOperationInstance : a class instance that must inherit from SdkOperation. Contains an invoke method which returns a calback
             and a stack of middleware functions which may or may not be empty
         */
@@ -60,7 +61,7 @@ class CoreServiceRouter extends Router
             }
             catch ( error )
             {
-                debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${e.message}` );
+                debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${ e.message }` );
                 throw error;
             }
 
@@ -73,10 +74,10 @@ class CoreServiceRouter extends Router
         DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new GetClientSdkOperation() );
 
         // Modifies existing user schema
-        DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdPAram, new PutClientSdkOperation() );
+        DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdParam, new PutClientSdkOperation() );
 
         DefineEndpoint( GetOperation, CoreServicePaths.BasicProfilePathWithId, new GetProfileSdkOperation() );
     }
 }
 
-module.exports = CoreServiceRouter;
+module.exports = { CoreServiceRouter };

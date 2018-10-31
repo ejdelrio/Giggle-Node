@@ -7,7 +7,7 @@ class CoreServicePaths
     static get UserLoginPath() { return new String( "/api/user/login" ); }
     static get UserSignupPath() { return new String( "/api/user/sigup" ); }
     static get BasicUserPath() { return new String( "/api/user" ); }
-    static get BasicUserPathWithIdPAram() { return new String( "/api/user/{_id}" ); }
+    static get BasicUserPathWithIdParam() { return new String( "/api/user/{_id}" ); }
     //===========================================================
 
     //Profile Routes
@@ -17,4 +17,4 @@ class CoreServicePaths
 
 }
 
-module.exports = CoreServicePaths;
+module.exports = { CoreServicePaths };

@@ -28,7 +28,9 @@
     "knex": "^0.15.2",
     "morgan": "^1.9.1",
     "objection": "^1.4.0",
-    "pg": "^7.5.0"
+    "pg": "^7.6.0",
+    "sqlite3": "^4.0.3",
+    "tedious": "^3.0.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

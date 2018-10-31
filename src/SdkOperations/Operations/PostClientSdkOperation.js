@@ -5,6 +5,7 @@ const debug = require( "debug" )( "Giggle-Node : UserSignupSdkOperation" );
 const { json } = require( "body-parser" );
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
 
+
 class PostClientSdkOperation extends SdkOperation
 {
     constructor()

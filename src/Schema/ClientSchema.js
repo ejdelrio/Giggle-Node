@@ -3,7 +3,7 @@
 const debug = require( "debug" )( "Giggle-Node : ClientSchema.js" );
 const { Model } = require( "objection" );
 const { ProfileSchema } = require( "./ProfileSchema" );
-
+const { ObjectionHelperSinglton } = require( "../Util/ObjectionSQLHelper" );
 class ClientSchema extends Model
 {
     constructor()
@@ -19,7 +19,7 @@ class ClientSchema extends Model
         const schema =
         {
             type: 'object',
-            required: [ "userName", "email", "password", "id" ],
+            required: [ "userName", "email", "password" ],
 
             properties:
             {
@@ -76,6 +76,29 @@ class ClientSchema extends Model
         return subscriptionMapping
     }
 
+    // Create database schema. You should use knex migration files to do this.
+    // We create it here for simplicity.
+    static createSchema()
+    {
+        debug( "Creating Client Schema" );
+        return ObjectionHelperSinglton
+            .knexConnection
+            .schema.hasTable( ClientSchema.PG )
+            .then( hashTable =>
+            {
+                if ( !hashTable )
+                {
+
+                }
+            } )
+            .catch( error => 
+            {
+                debug( `Error : ${ error.message }` );
+                throw error;
+            } );
+    }
 }
+
+ClientSchema.createSchema();
 
 module.exports = { ClientSchema };
