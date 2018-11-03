@@ -13,10 +13,10 @@ const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/
 //=======================================================
 const { SdkOperation } = require( "../SdkOperations/SdkOperation" );
 
-const { PostClientSdkOperation } = require( "../SdkOperations/Operations/PostClientSdkOperation" );
-const { GetClientSdkOperation } = require( "../SdkOperations/Operations/GetClientSdkOperation" );
-const { PutClientSdkOperation } = require( "../SdkOperations/Operations/PutClientSdkOperation.js" );
-const { GetProfileSdkOperation } = require( "../SdkOperations/Operations/GetProfileSdkOperation" );
+const { PostClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
+const { GetClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/GetClientSdkOperation" );
+const { PutClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PutClientSdkOperation" );
+const { GetProfileSdkOperation } = require( "../SdkOperations/ProfileSdkOperations/GetProfileSdkOperation" );
 
 //REST OPERATION CONSTANTS
 //=======================================================
