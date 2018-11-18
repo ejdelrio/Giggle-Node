@@ -64,7 +64,6 @@ class CoreServiceRouter extends Router
                 debug( `Exception occured when setting an API route. this is more than likely due to an invalid REST operation. \nError : ${ e.message }` );
                 throw error;
             }
-
         }
 
         //Creates an endpoint to allow users to signup, storing the data in a sequal database

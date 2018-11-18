@@ -1,17 +1,19 @@
 "use strict";
 
 const { SdkOperation } = require( "../SdkOperation" );
-const debug = require( "debug" )( "Giggle-Node : UserSignupSdkOperation" );
+const debug = require( "debug" )( "Giggle-Node : PostClientSdkOperation" );
 const { json } = require( "body-parser" );
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
-
 
 class PostClientSdkOperation extends SdkOperation
 {
     constructor()
     {
         super();
-        this.middleWareStack.push( json );
+        this.middleWareStack =
+            [
+                json
+            ]
     }
 
     Invoke()

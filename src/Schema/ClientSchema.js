@@ -4,6 +4,7 @@ const debug = require( "debug" )( "Giggle-Node : ClientSchema.js" );
 const { Model } = require( "objection" );
 const { ProfileSchema } = require( "./ProfileSchema" );
 const { ObjectionHelperSinglton } = require( "../Util/ObjectionSQLHelper" );
+const { knexConnection } = ObjectionHelperSinglton;
 class ClientSchema extends Model
 {
     constructor()
@@ -11,8 +12,12 @@ class ClientSchema extends Model
 
     }
 
-    static get tableName() { return "Client"; }
+    static get tableName() { return "client"; }
     static get columnId() { return "id"; }
+    static get columnUserName() { return "userName"; }
+    static get columnPassWord() { return "passWord"; }
+    static get columnEmail() { return "columnPassword"; }
+    static get columnProfileId() { return "profileID"; }
 
     static get jsonSchema()
     {
@@ -29,7 +34,6 @@ class ClientSchema extends Model
                 password: { type: "string", minLength: 8, maxLength: 255 }
             }
         }
-
         return schema;
     }
 
@@ -37,8 +41,8 @@ class ClientSchema extends Model
     {
         const relationShips =
         {
-            profile: ClientSchema.profileRelationMapping,
-            subscription: ClientSchema.getSubscriptionsRelationshipMapping
+            profile: this.profileRelationMapping,
+            subscription: this.getSubscriptionsRelationshipMapping
         }
 
         return relationShips;
@@ -68,8 +72,8 @@ class ClientSchema extends Model
             modelClass: null,
             join:
             {
-                from: "client.id",
-                to: "subscription.clientOwnerId"
+                from: `${ ClientSchema.tableName }.${ ClientSchema.columnId }`,
+                to: `${ ProfileSchema.tableName }.${ ProfileSchema.columnId }`
             }
         }
 
@@ -80,22 +84,39 @@ class ClientSchema extends Model
     // We create it here for simplicity.
     static createSchema()
     {
-        debug( "Creating Client Schema" );
-        return ObjectionHelperSinglton
-            .knexConnection
-            .schema.hasTable( ClientSchema.PG )
-            .then( hashTable =>
+        debug( "createSchema" );
+        return knexConnection
+            .schema
+            .hasTable( ClientSchema.tableName )
+            .then( hasTable =>
             {
-                if ( !hashTable )
+                if ( !hasTable )
                 {
-
+                    return knexConnection
+                        .schema
+                        .createTable( ClientSchema.tableName, ClientSchema.createSchemaCallback );
                 }
             } )
+            .then( debug )
             .catch( error => 
             {
                 debug( `Error : ${ error.message }` );
                 throw error;
             } );
+    }
+
+    static createSchemaCallback( table )
+    {
+        debug( "createSchemaCallback : Creating client schema" );
+
+        table.increments( ClientSchema.columnId ).primary();
+        table.string( ClientSchema.columnUserName, 50 );
+        table.string( ClientSchema.columnEmail );
+        table.string( ClientSchema.columnPassWord );
+
+        //Relations
+        //table.integer( ClientSchema.columnProfileId )
+        //.references( ProfileSchema.clientRelationColumn );
     }
 }
 

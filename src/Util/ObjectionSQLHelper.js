@@ -20,42 +20,30 @@ class ObjectionSQLHelper
 
     }
 
+    get connectionString()
+    {
+        return ``
+    }
+
     get connectionSchema()
     {
-        debug( this.connectionString )
         const knexSchema =
         {
             client: this.SQLDatabaseType,
             connection: {
-                connectionString: this.connectionString,
                 userName: this.databaseUserName,
                 passWord: this.databasePassword,
                 server: this.databasePath,
-                host: this.databasePath,
-                options:
-                {
-                    database: this.dataBaseName,
-                    encrypt: true,
-                    port: this.dataBasePort,
-                }
+                database: this.dataBaseName
             },
             debug: true
         }
         return knexSchema
     }
 
-    get connectionString()
-    {
-        let pgAuthData = `${ this.databaseUserName }@eddelrio-node-project@${ this.databasePath }:${ this.databasePassword }`;
-
-
-        return `postgres://${ pgAuthData }@${ this.databasePath }.postgres.database.azure.com:${ this.databasePort }/${ this.dataBaseName }?ssl=true`
-    }
-
     connect()
     {
         this.knexConnection = Knex( this.connectionSchema );
-        console.log( "__KNEX_CONNECTION__ : ", this.knexConnection );
         Model.knex( this.knexConnection );
     }
 }
