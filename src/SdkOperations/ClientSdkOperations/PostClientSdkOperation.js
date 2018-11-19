@@ -2,7 +2,7 @@
 
 const { SdkOperation } = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : PostClientSdkOperation" );
-const { hash, compare } = require( "bcrypt" );
+const bcrypt = require( "bcrypt" );
 const { json } = require( "body-parser" );
 
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
@@ -34,19 +34,20 @@ function CreateParameterContainer( request, next )
 function EncryptPlainTextPassword( postClientParameters )
 {
     debug( "Encrypting plain text password" );
+
     return new Promise( ( resolve, reject ) =>
     {
-        hash( passWord, 10, ( err, hashedPassword ) =>
+        return bcrypt.hash( postClientParameters.passWord, 10, ( error, hashedPassword ) =>
         {
-            if ( err )
+            if ( error )
             {
-                debug( "Hashing of password failed" )
+                debug( `Salting of password failed. ERROR : ${ error.message }` );
                 return reject( err );
             }
 
             debug( "Password encryption successful" );
             postClientParameters.passWord = hashedPassword;
-            resolve( postClientParameters );
+            return resolve( postClientParameters );
         } )
     } );
 }

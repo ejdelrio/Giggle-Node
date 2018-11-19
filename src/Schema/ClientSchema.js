@@ -5,7 +5,7 @@ const { sign } = require( "jsonwebtoken" );
 const { Model } = require( "objection" );
 const { randomBytes } = require( "crypto" );
 const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/CommonWorkItems" );
-const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
+const { ObjectionHelperSinglton } = require( "../Util/ObjectionSQLHelper" );
 const { knexConnection } = ObjectionHelperSinglton;
 
 const { BaseSchema } = require( "./BaseSchema" );
@@ -22,7 +22,7 @@ class ClientSchema extends BaseSchema
     static get columnId() { return "id"; }
     static get columnUserName() { return "userName"; }
     static get columnPassWord() { return "passWord"; }
-    static get columnEmail() { return "password"; }
+    static get columnEmail() { return "email"; }
     static get columnToken() { return "token"; }
     static get columnProfileId() { return "profileID"; }
 
@@ -93,35 +93,34 @@ class ClientSchema extends BaseSchema
 
         //Table properties
         table.increments( ClientSchema.columnId ).primary();
-        table.string( ClientSchema.columnUserName, 50 );
-        table.string( ClientSchema.columnEmail );
-        table.string( ClientSchema.columnPassWord );
-        table.string( ClientSchema.columnToken );
+        table.string( ClientSchema.columnUserName, 50 ).unique().notNullable();
+        table.string( ClientSchema.columnEmail ).unique().notNullable();
+        table.string( ClientSchema.columnPassWord ).notNullable();
+        table.string( ClientSchema.columnToken ).unique().notNullable();
 
         //Table Relations
         table.integer( ClientSchema.columnProfileId )
             .references( ProfileSchema.clientRelationColumn );
     }
 
+    //Use to generate a unique json web token
     static GenerateWebTokenHash( clientParameters, attemptCount = 0 )
     {
-        if ( !clientParameters )
-        {
-            throw new ReferenceError( "Null clientParameters" );
-        }
-
+        debug( "Generating Web Token" );
         ValidateType( attemptCount, Number );
+        ValidateType( clientParameters, Object );
 
         clientParameters.token = randomBytes( 32 ).toString( "hex" );
-
-        return knexConnection( this.tableName )
+        return knexConnection( ClientSchema.tableName )
             .insert( clientParameters )
             .then( () => clientParameters )
             .catch( error =>
             {
+                debug( "ERROR :D :D" )
                 if ( attemptCount => 3 )
                 {
-                    throw new Error( "Maximum retry limit exceeded" );
+                    debug( "Maximum retry limit exceeded" );
+                    throw new Error();
                 }
                 debug( `ERROR : ${ error.message }` );
                 this.GenerateWebTokenHash( clientParameters, attemptCount++ );
@@ -130,6 +129,7 @@ class ClientSchema extends BaseSchema
 
     static SignWebTokenHash( clientParameters )
     {
+        debug( "Signing Web Token" );
         if ( !clientParameters )
         {
             throw new ReferenceError( "Null clientParameters" );
