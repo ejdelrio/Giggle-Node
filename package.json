@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "DEBUG='Giggle-Node*' node server.js",
+    "test": "DEBUG='Giggle-Node*' mocha ./src/test/*",
     "start_win": "set DEBUG=Giggle-Node* &  node server.js"
   },
   "repository": {
