@@ -1,6 +1,6 @@
 "use strict"
 
-const NotImplementedError = require( "../Errors/NotImplementedError" );
+const { NotImplementedError } = require( "../Errors/NotImplementedError" );
 
 /*
 ==================================================================

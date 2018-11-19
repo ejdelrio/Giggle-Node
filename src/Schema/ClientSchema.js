@@ -2,10 +2,11 @@
 
 const debug = require( "debug" )( "Giggle-Node : ClientSchema.js" );
 const { Model } = require( "objection" );
+
+const { BaseSchema } = require( "./BaseSchema" );
 const { ProfileSchema } = require( "./ProfileSchema" );
-const { ObjectionHelperSinglton } = require( "../Util/ObjectionSQLHelper" );
-const { knexConnection } = ObjectionHelperSinglton;
-class ClientSchema extends Model
+
+class ClientSchema extends BaseSchema
 {
     constructor()
     {
@@ -16,7 +17,7 @@ class ClientSchema extends Model
     static get columnId() { return "id"; }
     static get columnUserName() { return "userName"; }
     static get columnPassWord() { return "passWord"; }
-    static get columnEmail() { return "columnPassword"; }
+    static get columnEmail() { return "password"; }
     static get columnProfileId() { return "profileID"; }
 
     static get jsonSchema()
@@ -80,46 +81,21 @@ class ClientSchema extends Model
         return subscriptionMapping
     }
 
-    // Create database schema. You should use knex migration files to do this.
-    // We create it here for simplicity.
-    static createSchema()
-    {
-        debug( "createSchema" );
-        return knexConnection
-            .schema
-            .hasTable( ClientSchema.tableName )
-            .then( hasTable =>
-            {
-                if ( !hasTable )
-                {
-                    return knexConnection
-                        .schema
-                        .createTable( ClientSchema.tableName, ClientSchema.createSchemaCallback );
-                }
-            } )
-            .then( debug )
-            .catch( error => 
-            {
-                debug( `Error : ${ error.message }` );
-                throw error;
-            } );
-    }
-
     static createSchemaCallback( table )
     {
-        debug( "createSchemaCallback : Creating client schema" );
+        debug( "createClientTableCallback : Creating client schema" );
 
+        //Table properties
         table.increments( ClientSchema.columnId ).primary();
         table.string( ClientSchema.columnUserName, 50 );
         table.string( ClientSchema.columnEmail );
         table.string( ClientSchema.columnPassWord );
 
-        //Relations
-        //table.integer( ClientSchema.columnProfileId )
-        //.references( ProfileSchema.clientRelationColumn );
+        //Table Relations
+        table.integer( ClientSchema.columnProfileId )
+            .references( ProfileSchema.clientRelationColumn );
     }
 }
 
 ClientSchema.createSchema();
-
 module.exports = { ClientSchema };
