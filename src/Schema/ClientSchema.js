@@ -1,7 +1,12 @@
 "use strict";
 
 const debug = require( "debug" )( "Giggle-Node : ClientSchema.js" );
+const { sign } = require( "jsonwebtoken" );
 const { Model } = require( "objection" );
+const { randomBytes } = require( "crypto" );
+const { ValidateStringIsNotNullOrWhiteSpace, ValidateType } = require( "../Util/CommonWorkItems" );
+const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
+const { knexConnection } = ObjectionHelperSinglton;
 
 const { BaseSchema } = require( "./BaseSchema" );
 const { ProfileSchema } = require( "./ProfileSchema" );
@@ -18,6 +23,7 @@ class ClientSchema extends BaseSchema
     static get columnUserName() { return "userName"; }
     static get columnPassWord() { return "passWord"; }
     static get columnEmail() { return "password"; }
+    static get columnToken() { return "token"; }
     static get columnProfileId() { return "profileID"; }
 
     static get jsonSchema()
@@ -90,10 +96,49 @@ class ClientSchema extends BaseSchema
         table.string( ClientSchema.columnUserName, 50 );
         table.string( ClientSchema.columnEmail );
         table.string( ClientSchema.columnPassWord );
+        table.string( ClientSchema.columnToken );
 
         //Table Relations
         table.integer( ClientSchema.columnProfileId )
             .references( ProfileSchema.clientRelationColumn );
+    }
+
+    static GenerateWebTokenHash( clientParameters, attemptCount = 0 )
+    {
+        if ( !clientParameters )
+        {
+            throw new ReferenceError( "Null clientParameters" );
+        }
+
+        ValidateType( attemptCount, Number );
+
+        clientParameters.token = randomBytes( 32 ).toString( "hex" );
+
+        return knexConnection( this.tableName )
+            .insert( clientParameters )
+            .then( () => clientParameters )
+            .catch( error =>
+            {
+                if ( attemptCount => 3 )
+                {
+                    throw new Error( "Maximum retry limit exceeded" );
+                }
+                debug( `ERROR : ${ error.message }` );
+                this.GenerateWebTokenHash( clientParameters, attemptCount++ );
+            } );
+    }
+
+    static SignWebTokenHash( clientParameters )
+    {
+        if ( !clientParameters )
+        {
+            throw new ReferenceError( "Null clientParameters" );
+        }
+
+        let { token } = clientParameters;
+        ValidateStringIsNotNullOrWhiteSpace( token );
+
+        return sign( { token }, process.env.APP_SECRET );
     }
 }
 

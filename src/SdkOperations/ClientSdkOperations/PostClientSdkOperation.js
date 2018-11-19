@@ -2,18 +2,12 @@
 
 const { SdkOperation } = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : PostClientSdkOperation" );
+const { hash, compare } = require( "bcrypt" );
 const { json } = require( "body-parser" );
 
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
-const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
-const { knexConnection } = ObjectionHelperSinglton;
 const { ValidateStringIsNotNullOrWhiteSpace } = require( "../../Util/CommonWorkItems" );
 const createError = require( "http-errors" );
-
-function SignJsonToken()
-{
-
-}
 
 function CreateParameterContainer( request, next )
 {
@@ -39,7 +33,30 @@ function CreateParameterContainer( request, next )
 
 function EncryptPlainTextPassword( postClientParameters )
 {
+    debug( "Encrypting plain text password" );
+    return new Promise( ( resolve, reject ) =>
+    {
+        hash( passWord, 10, ( err, hashedPassword ) =>
+        {
+            if ( err )
+            {
+                debug( "Hashing of password failed" )
+                return reject( err );
+            }
 
+            debug( "Password encryption successful" );
+            postClientParameters.passWord = hashedPassword;
+            resolve( postClientParameters );
+        } )
+    } );
+}
+
+function SendSucessResponse( token, response, next )
+{
+    debug( "SendSuccessResponse" );
+    response.status = 204;
+    response.send( token );
+    next();
 }
 
 function PostClient( request, response, next )
@@ -47,9 +64,10 @@ function PostClient( request, response, next )
     debug( "Entering postClientSdkOperation" );
     let postClientParameters = CreateParameterContainer( request, next );
 
-    knexConnection( ClientSchema.tableName )
-        .insert( postClientParameters )
-        .then()
+    EncryptPlainTextPassword( postClientParameters )
+        .then( ClientSchema.GenerateWebTokenHash )
+        .then( ClientSchema.SignWebTokenHash )
+        .then( token => SendSucessResponse( token, response, next ) )
         .catch( error => next( createError( 400, error.message ) ) );
 }
 
