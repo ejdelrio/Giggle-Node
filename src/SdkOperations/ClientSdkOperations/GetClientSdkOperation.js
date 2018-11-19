@@ -1,7 +1,10 @@
 "use strict";
 
-const { SdkOperation } = require( "../SdkOperation" );
 const debug = require( "debug" )( "Giggle-Node : GetClientSdkOperation" );
+const { SdkOperation } = require( "../SdkOperation" );
+const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
+const { knexConnection } = ObjectionHelperSinglton;
+const { BearerAuthentication } = require( "../../Util//CommonWorkItems" );
 
 class GetClientSdkOperation extends SdkOperation
 {
@@ -12,12 +15,14 @@ class GetClientSdkOperation extends SdkOperation
 
     Invoke()
     {
-        return function ( request, response, next )
-        {
-            debug( "Entering GetClientSdkOperation" );
+        return this.GetClient;
+    }
 
-            return next();
-        }
+    static GetClient( request, response, next )
+    {
+        debug( "Entering GetClientSdkOperation" );
+
+        return next();
     }
 }
 

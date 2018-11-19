@@ -10,10 +10,7 @@ class PostClientSdkOperation extends SdkOperation
     constructor()
     {
         super();
-        this.middleWareStack =
-            [
-                json
-            ]
+        this.middleWareStack.push( json );
     }
 
     Invoke()
