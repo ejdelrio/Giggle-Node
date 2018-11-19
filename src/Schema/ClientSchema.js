@@ -19,7 +19,6 @@ class ClientSchema extends BaseSchema
     }
 
     static get tableName() { return "client"; }
-    static get columnId() { return "id"; }
     static get columnUserName() { return "userName"; }
     static get columnPassWord() { return "passWord"; }
     static get columnEmail() { return "email"; }
@@ -48,8 +47,8 @@ class ClientSchema extends BaseSchema
     {
         const relationShips =
         {
-            profile: this.profileRelationMapping,
-            subscription: this.getSubscriptionsRelationshipMapping
+            profile: ClientSchema.profileRelationMapping,
+            subscription: ClientSchema.getSubscriptionsRelationshipMapping
         }
 
         return relationShips;
@@ -79,8 +78,8 @@ class ClientSchema extends BaseSchema
             modelClass: null,
             join:
             {
-                from: `${ ClientSchema.tableName }.${ ClientSchema.columnId }`,
-                to: `${ ProfileSchema.tableName }.${ ProfileSchema.columnId }`
+                from: `${ClientSchema.tableName}.${ClientSchema.columnId}`,
+                to: `${ProfileSchema.tableName}.${ProfileSchema.columnId}`
             }
         }
 
@@ -122,8 +121,8 @@ class ClientSchema extends BaseSchema
                     debug( "Maximum retry limit exceeded" );
                     throw new Error();
                 }
-                debug( `ERROR : ${ error.message }` );
-                this.GenerateWebTokenHash( clientParameters, attemptCount++ );
+                debug( `ERROR : ${error.message}` );
+                ClientSchema.GenerateWebTokenHash( clientParameters, attemptCount++ );
             } );
     }
 

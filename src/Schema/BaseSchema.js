@@ -10,7 +10,7 @@ const { NotImplementedError } = require( "../Errors/NotImplementedError" );
 class BaseSchema extends Model
 {
   static get tableName() { return "base"; }
-  static get columId() { return "id"; }
+  static get columnId() { return "id"; }
 
   static get relationShipMappings()
   {
@@ -19,7 +19,12 @@ class BaseSchema extends Model
 
   static createSchema()
   {
-    debug( `createSchema : ${ this.tableName }` );
+    if ( this.tableName == "base" )
+    {
+      throw new NotImplementedError( "Base schema cannot be implmented. Override tableName" );
+    }
+
+    debug( `createSchema : ${this.tableName}` );
     return knexConnection
       .schema
       .hasTable( this.tableName )
@@ -34,7 +39,7 @@ class BaseSchema extends Model
       } )
       .catch( error => 
       {
-        debug( `Error : ${ error.message }` );
+        debug( `Error : ${error.message}` );
         throw error;
       } );
   }
