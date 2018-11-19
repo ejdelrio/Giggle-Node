@@ -1,8 +1,8 @@
 "use strict";
 
+require( "dotenv" ).config();
 const express = require( "express" );
 const debug = require( "debug" )( "Giggle-Node : CoreServiceRouter.js" );
-const dotenv = require( "dotenv" ).config();
 const { Router } = express;
 
 const { CoreServicePaths } = require( "./CoreServicePaths" );
@@ -16,6 +16,8 @@ const { SdkOperation } = require( "../SdkOperations/SdkOperation" );
 const { PostClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
 const { GetClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/GetClientSdkOperation" );
 const { PutClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PutClientSdkOperation" );
+const { DeleteClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/DeleteClientSdkOperation" );
+
 const { GetProfileSdkOperation } = require( "../SdkOperations/ProfileSdkOperations/GetProfileSdkOperation" );
 
 //REST OPERATION CONSTANTS
@@ -23,7 +25,7 @@ const { GetProfileSdkOperation } = require( "../SdkOperations/ProfileSdkOperatio
 const GetOperation = new String( "get" );
 const PostOperation = new String( "post" );
 const PutOperation = new String( "put" );
-const DeleteOperaiton = new String( "delete" );
+const DeleteOperation = new String( "delete" );
 
 class CoreServiceRouter extends Router
 {
@@ -66,14 +68,10 @@ class CoreServiceRouter extends Router
             }
         }
 
-        //Creates an endpoint to allow users to signup, storing the data in a sequal database
-        DefineEndpoint( PostOperation, CoreServicePaths.UserSignupPath, new PostClientSdkOperation() );
-
-        //Attempts to get a JSON signed web token by loging in with user credentials
         DefineEndpoint( GetOperation, CoreServicePaths.UserLoginPath, new GetClientSdkOperation() );
-
-        // Modifies existing user schema
+        DefineEndpoint( PostOperation, CoreServicePaths.UserSignupPath, new PostClientSdkOperation() );
         DefineEndpoint( PutOperation, CoreServicePaths.BasicUserPathWithIdParam, new PutClientSdkOperation() );
+        DefineEndpoint( DeleteOperation, CoreServicePaths.BasicClientPathWithIdParam, new DeleteClientSdkOperation() );
 
         DefineEndpoint( GetOperation, CoreServicePaths.BasicProfilePathWithId, new GetProfileSdkOperation() );
     }
