@@ -122,7 +122,7 @@ class ClientSchema extends BaseSchema
                     throw new Error();
                 }
                 debug( `ERROR : ${error.message}` );
-                ClientSchema.GenerateWebTokenHash( clientParameters, attemptCount++ );
+                ClientSchema.GenerateWebTokenHash( clientParameters, attemptCount + 1 );
             } );
     }
 

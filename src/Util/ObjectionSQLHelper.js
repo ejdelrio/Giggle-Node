@@ -4,7 +4,6 @@ const debug = require( "debug" )( "Giggle-Node : ObjectionSQLHelper.js" );
 const { Model } = require( "objection" );
 const Knex = require( "knex" );
 const dotenv = require( "dotenv" );
-const { Connection, Request } = require( "tedious" );
 
 dotenv.config();
 class ObjectionSQLHelper
@@ -18,11 +17,6 @@ class ObjectionSQLHelper
         this.databaseUserName = process.env.DB_USER_NAME;
         this.databasePassword = process.env.DB_PASSWORD;
 
-    }
-
-    get connectionString()
-    {
-        return ``
     }
 
     get connectionSchema()
@@ -43,8 +37,16 @@ class ObjectionSQLHelper
 
     connect()
     {
-        this.knexConnection = Knex( this.connectionSchema );
-        Model.knex( this.knexConnection );
+        try
+        {
+            this.knexConnection = Knex( this.connectionSchema );
+            Model.knex( this.knexConnection );
+        }
+        catch ( error )
+        {
+            debug( `SQL CONNECTION ERROR : ${error.message}` );
+            throw error;
+        }
     }
 }
 

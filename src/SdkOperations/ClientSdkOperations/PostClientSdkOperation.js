@@ -9,10 +9,13 @@ const { ClientSchema } = require( "../../Schema/ClientSchema" );
 const { ValidateStringIsNotNullOrWhiteSpace } = require( "../../Util/CommonWorkItems" );
 const createError = require( "http-errors" );
 
+//==================================================
+// PRIVATE FUNCTIONS
+//==================================================
 function CreateParameterContainer( request, next )
 {
     debug( "Creating client parameters" );
-    let { userName, passWord, email } = request;
+    let { userName, passWord, email } = request.body;
 
     try
     {
@@ -22,7 +25,7 @@ function CreateParameterContainer( request, next )
     }
     catch ( error )
     {
-        debug( `Error : ${ error.message }` );
+        debug( `Error : ${error.message}` );
         next( createError( 400, "Invalid Parameters" ) );
         return {};
     }
@@ -41,7 +44,7 @@ function EncryptPlainTextPassword( postClientParameters )
         {
             if ( error )
             {
-                debug( `Salting of password failed. ERROR : ${ error.message }` );
+                debug( `Salting of password failed. ERROR : ${error.message}` );
                 return reject( err );
             }
 
@@ -72,6 +75,12 @@ function PostClient( request, response, next )
         .catch( error => next( createError( 400, error.message ) ) );
 }
 
+//==================================================
+
+
+//==================================================
+// PUBLIC 
+//==================================================
 class PostClientSdkOperation extends SdkOperation
 {
     constructor()

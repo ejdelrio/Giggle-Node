@@ -21,7 +21,7 @@ class BaseSchema extends Model
   {
     if ( this.tableName == "base" )
     {
-      throw new NotImplementedError( "Base schema cannot be implmented. Override tableName" );
+      throw new NotImplementedError( "Base schema cannot be implemented. Override tableName" );
     }
 
     debug( `createSchema : ${this.tableName}` );

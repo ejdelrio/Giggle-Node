@@ -32,8 +32,6 @@ class CommonWorkItems
     debug( "Entering ErrorHandler" );
 
     throw new NotImplementedError( "ErrorHandler" );
-
-    debug( "Exiting ErrorHandler" );
   }
 
   static ValidateStringIsNotNullOrEmpty( str )
