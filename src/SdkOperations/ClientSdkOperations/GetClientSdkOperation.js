@@ -6,6 +6,12 @@ const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
 const { knexConnection } = ObjectionHelperSinglton;
 const { BearerAuthentication } = require( "../../Util//CommonWorkItems" );
 
+function GetClient( request, response, next )
+{
+    debug( "Entering GetClientSdkOperation" );
+
+    return next();
+}
 class GetClientSdkOperation extends SdkOperation
 {
     constructor()
@@ -15,15 +21,9 @@ class GetClientSdkOperation extends SdkOperation
 
     Invoke()
     {
-        return this.GetClient;
+        return GetClient;
     }
 
-    static GetClient( request, response, next )
-    {
-        debug( "Entering GetClientSdkOperation" );
-
-        return next();
-    }
 }
 
 module.exports = { GetClientSdkOperation };

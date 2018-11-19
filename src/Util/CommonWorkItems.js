@@ -39,7 +39,7 @@ class CommonWorkItems
   static ValidateStringIsNotNullOrEmpty( str )
   {
     CommonWorkItems.ValidateType( str, String );
-    return str === null || str.length === 0;
+    return !str || str.length === 0;
   }
 
   static ValidateStringIsNotNullOrWhiteSpace( str )

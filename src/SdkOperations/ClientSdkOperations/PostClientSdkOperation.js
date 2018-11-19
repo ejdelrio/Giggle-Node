@@ -6,7 +6,7 @@ const { json } = require( "body-parser" );
 
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
 const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
-const { knexConnection } = ObjectionHelperSingleton;
+const { knexConnection } = ObjectionHelperSinglton;
 const { ValidateStringIsNotNullOrWhiteSpace } = require( "../../Util/CommonWorkItems" );
 const createError = require( "http-errors" );
 
