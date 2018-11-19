@@ -12,6 +12,7 @@ class CoreServicePaths
 
     //Profile Routes
     //===========================================================
+    static get BasicProfilePath() { return new String( "/api/profile" ); }
     static get BasicProfilePathWithId() { return new String( "/api/profile/{_id}" ); }
     //===========================================================
 

@@ -29,14 +29,17 @@ class CoreServiceRouter extends Router
     constructor()
     {
         super();
+        debug( "Starting CoreServiceRouter instance" );
 
         const DefineEndpoint = require( "./DefineEndpoint" ).bind( this );
 
+        // Client endpoints
         DefineEndpoint( GetOperation, CoreServicePaths.ClientLoginPath, new GetClientSdkOperation() );
         DefineEndpoint( PostOperation, CoreServicePaths.ClientSignupPath, new PostClientSdkOperation() );
         DefineEndpoint( PutOperation, CoreServicePaths.BasicClientPathWithIdParam, new PutClientSdkOperation() );
         DefineEndpoint( DeleteOperation, CoreServicePaths.BasicClientPathWithIdParam, new DeleteClientSdkOperation() );
 
+        //Profile endpoints
         DefineEndpoint( GetOperation, CoreServicePaths.BasicProfilePathWithId, new GetProfileSdkOperation() );
     }
 }
