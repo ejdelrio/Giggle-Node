@@ -8,24 +8,31 @@ const { DeleteClientSdkOperation } = require( "../SdkOperations/ClientSdkOperati
 const { PutClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PutClientSdkOperation" );
 
 const { ClientMock } = require( "./Mocks/ClientMocks" );
+const { CommonClientTestItems } = require( "./ClientTests/CommonClientTestItems" );
 
 let sdkInvocation = new PostClientSdkOperation().Invoke();
 let mockInstance = new ClientMock();
 let request = mockInstance.RequestTemplate;
 let response = mockInstance.ResponseTemplate;
 
-function resetResponse( done )
+function resetResponse()
 {
   debug( "Resetting response" );
 
   delete response.body;
   delete response.status;
-  done();
 }
 
 function ValidPostClientTest()
 {
-  after( resetResponse );
+  after( done =>
+  {
+    resetResponse();
+    CommonClientTestItems.CleanseTable()
+      .then( () => done() )
+      .catch( done );
+  } );
+
   it( "Should return a JSON web token and 204 code", done => 
   {
     debug( request, response );
