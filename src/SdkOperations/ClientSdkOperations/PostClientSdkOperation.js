@@ -41,7 +41,7 @@ function CreateParameterContainer( request, next )
     }
 
     delete request.passWord;
-    return { userName, passWord, email };
+    return { userName, passWord, email, debug };
 }
 
 /*
@@ -73,7 +73,6 @@ function EncryptPlainTextPassword( postClientParameters )
     } );
 }
 
-
 /*
 Function : SendSucessResponse
 Purpose : Generates a response containing the signed JSON web token
@@ -85,11 +84,11 @@ Parameters:
 function SendSucessResponse( token, response, next )
 {
     debug( "SendSuccessResponse" );
-
+    debug( response );
     ValidateStringIsNotNullOrWhiteSpace( token );
     response.status = 204;
     response.send( token );
-    next();
+    return next();
 }
 
 /*
@@ -105,7 +104,7 @@ function PostClient( request, response, next )
     debug( "Entering postClientSdkOperation" );
     let postClientParameters = CreateParameterContainer( request, next );
 
-    EncryptPlainTextPassword( postClientParameters )
+    return EncryptPlainTextPassword( postClientParameters )
         .then( ClientSchema.GenerateWebTokenHash )
         .then( ClientSchema.SignWebTokenHash )
         .then( token => SendSucessResponse( token, response, next ) )

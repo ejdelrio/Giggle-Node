@@ -1,27 +1,34 @@
 "use strict";
 
-class ClientMocks
+class ClientMock
 {
-  static get RequestTemplate()
+  constructor()
   {
-    let response =
+    this.responseContent;
+  }
+
+  get RequestTemplate()
+  {
+    let body =
     {
       userName: "testUserName",
       passWord: "testPassword",
       email: "testEmail@test.test"
     };
-    return response;
+    return { body };
   }
 
-  static get ResponseTemplate()
+  send( data )
   {
-    return { send: ClientMocks.send };
+    this.body = data;
   }
 
-  static send( data )
+  get ResponseTemplate()
   {
-    return data;
+    return { send: this.send };
   }
+
+
 }
 
-module.exports = { ClientMocks };
+module.exports = { ClientMock };
