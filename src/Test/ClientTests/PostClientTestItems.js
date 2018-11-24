@@ -8,6 +8,7 @@ const { PostClientSdkOperation } = require( "../../SdkOperations/ClientSdkOperat
 
 const { ClientMock } = require( "../Mocks/ClientMocks" );
 const { CommonClientTestItems } = require( "./CommonClientTestItems" );
+const { CommonTestItems } = require( "../CommonTestItems" );
 
 let sdkInvocation = new PostClientSdkOperation().Invoke();
 let request;
@@ -84,6 +85,37 @@ function InvalidTestWithMissingParameter( parameterName )
         .catch( done );
     } );
   }
+}
+
+function InvalidTestWithDuplicateEntry()
+{
+  before( doen => 
+  {
+    InitiateMocks();
+    sdkInvocation( request, response, () => null )
+      .then( () => done )
+      .catch( done );
+  } );
+
+  after( done =>
+  {
+    CommonClientTestItems.CleanseTable()
+      .then( () => done() )
+      .catch( done );
+  } );
+
+  it( "Should return a 400 error code with a duplicte entry error header", done => 
+  {
+    sdkInvocation( request, response, function ( error ) 
+    {
+      let errorMessage = CommonTestItems.ParseDuplicatentryError( error );
+      expect( error.status ).to.equal( 400 );
+      expect( errorMessage ).to.equal( CommonTestItems.sqlDuplicateEntryErroHeader );
+
+    } )
+      .then( () => done() )
+      .catch( done );
+  } );
 }
 
 function TestInvocation()

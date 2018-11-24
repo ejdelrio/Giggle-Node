@@ -1,17 +1,7 @@
 "use strict";
 
 const debug = require( "debug" )( "Giggle-Node : Client-Operations-test.js" );
-const { expect } = require( "chai" );
-const { PostClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
 const PostTestInvocation = require( "./ClientTests/PostClientTestItems" );
-
-const { ClientMock } = require( "./Mocks/ClientMocks" );
-const { CommonClientTestItems } = require( "./ClientTests/CommonClientTestItems" );
-
-let sdkInvocation = new PostClientSdkOperation().Invoke();
-let mockInstance = new ClientMock();
-let request = mockInstance.RequestTemplate;
-let response = mockInstance.ResponseTemplate;
 
 function GetClientTests()
 {
@@ -28,7 +18,7 @@ function DeleteClientTests()
 
 }
 
-describe( "Client SDK Operations", () => 
+describe( "Client SDK Operation Tests", () => 
 {
   describe( "Test PostClientSdkOperation", PostTestInvocation );
   describe( "Test DeleteClientSdkOperations", DeleteClientTests );

@@ -130,10 +130,10 @@ class ClientSchema extends BaseSchema
                 if ( attemptCount => 3 )
                 {
                     debug( "Maximum retry limit exceeded" );
-                    throw new Error();
+                    throw error
                 }
 
-                ClientSchema.GenerateWebTokenHash( clientParameters, attemptCount + 1 );
+                return ClientSchema.GenerateWebTokenHash( clientParameters, attemptCount + 1 );
             } );
     }
 
