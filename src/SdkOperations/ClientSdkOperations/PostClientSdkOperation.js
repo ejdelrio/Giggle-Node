@@ -24,7 +24,7 @@ Returns :
 */
 function CreateParameterContainer( request )
 {
-    debug( "Creating client parameters" );
+    debug( "CreateParameterContainer" );
     let { userName, passWord, email } = request.body;
 
     try
@@ -35,9 +35,7 @@ function CreateParameterContainer( request )
     }
     catch ( error )
     {
-        let formattedErrorMessage = ErrorMessageConstants
-            .FormatInvalidParameterMessage( error.message );
-
+        let formattedErrorMessage = ErrorMessageConstants.FormatInvalidParameterMessage( error.message );
         throw new Error( formattedErrorMessage );
     }
 
@@ -55,7 +53,7 @@ Returns :
 */
 function EncryptPlainTextPassword( postClientParameters )
 {
-    debug( "Encrypting plain text password" );
+    debug( "EncryptPlainTextPassword" );
 
     return new Promise( ( resolve, reject ) =>
     {
@@ -85,7 +83,6 @@ Parameters:
 function SendSucessResponse( token, response, next )
 {
     debug( "SendSuccessResponse" );
-    debug( response );
     ValidateStringIsNotNullOrWhiteSpace( token );
     response.status = 204;
     response.send( token );
@@ -102,18 +99,16 @@ Parameters:
 */
 function PostClient( request, response, next )
 {
-    debug( "Entering postClientSdkOperation" );
+    debug( "Entering PostClientSdkOperation" );
     let postClientParameters;
     try
     {
         postClientParameters = CreateParameterContainer( request );
-        debug( "PARAMS : ", postClientParameters )
     }
     catch ( error )
     {
-        return next( createError( 400, error.message ) );
+        return Promise.reject( next( createError( 400, error.message ) ) );
     }
-
 
     return EncryptPlainTextPassword( postClientParameters )
         .then( ClientSchema.GenerateWebTokenHash )

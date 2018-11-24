@@ -80,7 +80,6 @@ function InvalidTestWithMissingParameter( parameterName )
         expect( error.status ).to.equal( 400 );
         expect( typeof error.message ).to.equal( "string" );
         expect( error.message ).to.equal( expectedErrorMessage );
-        done();
       } )
         .catch( done );
     } );
