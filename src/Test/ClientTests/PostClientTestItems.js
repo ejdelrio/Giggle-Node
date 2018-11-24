@@ -2,6 +2,7 @@
 
 const debug = require( "debug" )( "Giggle-Node : Client-Operations-test.js" );
 const { expect } = require( "chai" );
+const { ClientSchema } = require( "../../Schema/ClientSchema" );
 const { PostClientSdkOperation } = require( "../../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
 
 const { ClientMock } = require( "../Mocks/ClientMocks" );
@@ -9,7 +10,7 @@ const { CommonClientTestItems } = require( "./CommonClientTestItems" );
 
 let sdkInvocation = new PostClientSdkOperation().Invoke();
 let request;
-let reponse;
+let response;
 
 function InitiateMocks()
 {
@@ -68,9 +69,20 @@ function InvalidTestWithMissingParameter( parameterName )
         .catch( error =>
         {
           debug( "ERROR : ", error );
+          expect( error.status ).to.equal( 400 );
           done();
         } );
     } );
   }
 }
+
+function TestInvocation()
+{
+  describe( "With valid parameters", ValidPostClientTest );
+  describe( "With a missing user name", InvalidTestWithMissingParameter( ClientSchema.columnUserName ) );
+  describe( "With a missing email", InvalidTestWithMissingParameter( ClientSchema.columnEmail ) );
+  describe( "With a missing password", InvalidTestWithMissingParameter( ClientSchema.columnPassWord ) );
+}
+
+module.exports = TestInvocation;
 

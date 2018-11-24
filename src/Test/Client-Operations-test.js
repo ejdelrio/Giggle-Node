@@ -3,9 +3,7 @@
 const debug = require( "debug" )( "Giggle-Node : Client-Operations-test.js" );
 const { expect } = require( "chai" );
 const { PostClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
-const { GetClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/GetClientSdkOperation" );
-const { DeleteClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/DeleteClientSdkOperation" );
-const { PutClientSdkOperation } = require( "../SdkOperations/ClientSdkOperations/PutClientSdkOperation" );
+const PostTestInvocation = require( "./ClientTests/PostClientTestItems" );
 
 const { ClientMock } = require( "./Mocks/ClientMocks" );
 const { CommonClientTestItems } = require( "./ClientTests/CommonClientTestItems" );
@@ -47,11 +45,6 @@ function ValidPostClientTest()
   } );
 }
 
-function PostClientTests()
-{
-  describe( "With a valid request body", ValidPostClientTest );
-}
-
 function GetClientTests()
 {
 
@@ -69,7 +62,7 @@ function DeleteClientTests()
 
 describe( "Client SDK Operations", () => 
 {
-  describe( "Test PostClientSdkOperation", PostClientTests );
+  describe( "Test PostClientSdkOperation", PostTestInvocation );
   describe( "Test DeleteClientSdkOperations", DeleteClientTests );
   describe( "Test PutClientSdkOperation", PutClientTests );
   describe( "Test GetClientSdkOperation", GetClientTests );
