@@ -111,7 +111,6 @@ function InvalidTestWithDuplicateEntry()
       let errorMessage = CommonTestItems.ParseDuplicatentryError( error );
       expect( error.status ).to.equal( 400 );
       expect( errorMessage ).to.equal( CommonTestItems.sqlDuplicateEntryErroHeader );
-
     } )
       .then( () => done() )
       .catch( done );

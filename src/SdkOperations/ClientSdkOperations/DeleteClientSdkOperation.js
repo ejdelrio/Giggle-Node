@@ -17,6 +17,7 @@ class DeleteClientSdkOperation extends SdkOperation
   constructor()
   {
     super();
+    this.middleWareStack.push( BearerAuthentication )
   }
 
   Invoke()
