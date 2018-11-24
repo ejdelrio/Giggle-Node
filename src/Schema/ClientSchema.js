@@ -150,6 +150,12 @@ class ClientSchema extends BaseSchema
 
         return sign( { token }, process.env.APP_SECRET );
     }
+
+    static QueryClientById( id )
+    {
+        return knexConnection( ClientSchema.tableName )
+            .where( { id } )
+    }
 }
 
 ClientSchema.createSchema();

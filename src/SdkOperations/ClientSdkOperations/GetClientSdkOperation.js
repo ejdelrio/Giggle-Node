@@ -18,9 +18,11 @@ function ValidateRequest( request )
     }
 
     ValidateStringIsNotNullOrWhiteSpace( _id, "_id" );
+
+    return _id;
 }
 
-function SendSuccessResponse( clientData, response )
+function SendSuccessResponse( clientData, response, next )
 {
     delete clientData.passWord;
     delete clientData.token;
@@ -31,9 +33,10 @@ function SendSuccessResponse( clientData, response )
 
 function GetClient( request, response, next )
 {
+    let _id;
     try
     {
-        ValidateRequest( request );
+        _id = ValidateRequest( request );
     }
     catch ( error )
     {
@@ -41,8 +44,16 @@ function GetClient( request, response, next )
         return Promise.reject( createError( 400, errorMessage ) );
     }
 
-    return next();
+    ClientSchema.QueryClientById( _id )
+        .then( clientData => 
+        {
+            debug( clientData );
+            return clientData;
+        } )
+        .then( clientData => SendSuccessResponse( clientData, response, next ) )
+        .catch( error => next( createError( 404, error.message ) ) );
 }
+
 class GetClientSdkOperation extends SdkOperation
 {
     constructor()
