@@ -4,7 +4,7 @@ const debug = require( "debug" )( "Giggle-Node : CommonTestItems.js" );
 
 class CommonTestItems
 {
-  static sqlDuplicateEntryErroHeader = new String( "duplicate key value violates unique constraint" );
+  static sqlDuplicateEntryErroHeader() { return "duplicate key value violates unique constraint"; }
   static ParseDuplicatentryError( error )
   {
     if ( !error )
@@ -35,4 +35,4 @@ class CommonTestItems
   }
 }
 
-module.exports = { ParseDuplicatentryError }
+module.exports = { CommonTestItems }
