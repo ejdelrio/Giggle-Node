@@ -25,7 +25,7 @@ function ValidPostClientTest()
 
   after( done => 
   {
-    reponse = null;
+    response = null;
     request = null;
 
     CommonClientTestItems.CleanseTable()
@@ -36,8 +36,13 @@ function ValidPostClientTest()
   it( "Should return a JSON web token and 204 code", done => 
   {
     debug( request, response );
-    sdkInvocation( request, response, function ()  
+    sdkInvocation( request, response, function ( error )  
     {
+      if ( error )
+      {
+        return done( error );
+      }
+
       expect( response.status ).to.equal( 204 );
       expect( typeof response.body ).to.equal( "string" );
       done();
@@ -65,13 +70,17 @@ function InvalidTestWithMissingParameter( parameterName )
 
     it( "Should return a 400 error code in the catch", done =>
     {
-      sdkInvocation( request, response, function () { } )
-        .catch( error =>
-        {
-          debug( "ERROR : ", error );
-          expect( error.status ).to.equal( 400 );
-          done();
-        } );
+      sdkInvocation( request, response, function ( error )
+      {
+        expect( error ).to.not.equal( null );
+        expect( error ).to.not.equal( undefined );
+        expect( error.status ).to.equal( 400 );
+        expect( error.message ).to.not.equal( null );
+        expect( error.message ).to.not.equal( undefined );
+        expect( typeof error.message ).to.equal( "string" );
+        done();
+      } )
+        .catch( done );
     } );
   }
 }

@@ -21,30 +21,6 @@ function resetResponse()
   delete response.status;
 }
 
-function ValidPostClientTest()
-{
-  after( done =>
-  {
-    resetResponse();
-    CommonClientTestItems.CleanseTable()
-      .then( () => done() )
-      .catch( done );
-  } );
-
-  it( "Should return a JSON web token and 204 code", done => 
-  {
-    debug( request, response );
-    sdkInvocation( request, response, function ()  
-    {
-      debug( response )
-      expect( response.status ).to.equal( 204 );
-      expect( typeof response.body ).to.equal( "string" );
-      done();
-    } )
-      .catch( done );
-  } );
-}
-
 function GetClientTests()
 {
 
