@@ -13,14 +13,6 @@ let mockInstance = new ClientMock();
 let request = mockInstance.RequestTemplate;
 let response = mockInstance.ResponseTemplate;
 
-function resetResponse()
-{
-  debug( "Resetting response" );
-
-  delete response.body;
-  delete response.status;
-}
-
 function GetClientTests()
 {
 

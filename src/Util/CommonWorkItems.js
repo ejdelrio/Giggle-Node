@@ -12,8 +12,6 @@ class CommonWorkItems
     debug( "Entering BearerAuthentication" );
 
     throw new NotImplementedError( "BearerAuthentication" );
-
-    debug( "Exiting BearerAuthentication" );
   }
 
   // Middleware for basic authentication
@@ -36,13 +34,15 @@ class CommonWorkItems
 
   static ValidateStringIsNotNullOrEmpty( str )
   {
+    debug( "ValidateStringIsNotNullOrEmpty" );
     CommonWorkItems.ValidateType( str, String );
     return !str || str.length === 0;
   }
 
-  static ValidateStringIsNotNullOrWhiteSpace( str )
+  static ValidateStringIsNotNullOrWhiteSpace( str, variableName = null )
   {
-    CommonWorkItems.ValidateType( str, String );
+    debug( "ValidateStringIsNotNullOrWhiteSpace : ", str )
+    CommonWorkItems.ValidateType( str, String, variableName );
 
     if ( CommonWorkItems.ValidateStringIsNotNullOrEmpty( str ) )
     {
@@ -56,20 +56,22 @@ class CommonWorkItems
       if ( str[ i ] != " " )
       {
         isAllWhiteSpace = false;
+        break;
       }
     }
 
     return isAllWhiteSpace;
   }
 
-  static ValidateType( classInstance, classConstructer )
+  static ValidateType( classInstance, classConstructer, variableName = null )
   {
-    if ( classInstance === null )
+    debug( "ValidateType" );
+    if ( classInstance == null || classInstance == undefined )
     {
-      throw new ReferenceError( "classInstance" );
+      throw new ReferenceError( variableName ? variableName : "classInstance" );
     }
 
-    if ( classConstructer === null )
+    if ( !classConstructer )
     {
       throw new ReferenceError( "classConstructor" );
     }
@@ -81,7 +83,7 @@ class CommonWorkItems
 
     if ( !classInstance instanceof classConstructer )
     {
-      throw new TypeError( "classInstance" );
+      throw new TypeError( variableName ? variableName : "classsInstance" );
     }
   }
 

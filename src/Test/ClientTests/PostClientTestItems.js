@@ -3,6 +3,7 @@
 const debug = require( "debug" )( "Giggle-Node : Client-Operations-test.js" );
 const { expect } = require( "chai" );
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
+const { ErrorMessageConstants } = require( "../../Errors/ErrorMessageConstants" );
 const { PostClientSdkOperation } = require( "../../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
 
 const { ClientMock } = require( "../Mocks/ClientMocks" );
@@ -58,7 +59,7 @@ function InvalidTestWithMissingParameter( parameterName )
     before( () =>
     {
       InitiateMocks();
-      delete request[ parameterName ];
+      delete request.body[ parameterName ];
     } );
 
     after( done =>
@@ -72,12 +73,13 @@ function InvalidTestWithMissingParameter( parameterName )
     {
       sdkInvocation( request, response, function ( error )
       {
+        let expectedErrorMessage = ErrorMessageConstants.FormatInvalidParameterMessage( parameterName );
+
         expect( error ).to.not.equal( null );
         expect( error ).to.not.equal( undefined );
         expect( error.status ).to.equal( 400 );
-        expect( error.message ).to.not.equal( null );
-        expect( error.message ).to.not.equal( undefined );
         expect( typeof error.message ).to.equal( "string" );
+        expect( error.message ).to.equal( expectedErrorMessage );
         done();
       } )
         .catch( done );

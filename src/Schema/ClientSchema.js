@@ -110,8 +110,10 @@ class ClientSchema extends BaseSchema
     //Use to generate a unique json web token
     static GenerateWebTokenHash( clientParameters, attemptCount = 0 )
     {
-        let debug = clientParameters.debug ? clientParameters.debug : debug;
-        delete clientParameters.debug;
+        if ( clientParameters.error )
+        {
+            throw clientParameters.error;
+        }
 
         debug( "Generating Web Token" );
         ValidateType( attemptCount, Number );
