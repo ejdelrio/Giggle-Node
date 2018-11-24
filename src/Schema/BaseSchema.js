@@ -24,7 +24,7 @@ class BaseSchema extends Model
       throw new NotImplementedError( "Base schema cannot be implemented. Override tableName" );
     }
 
-    debug( `createSchema : ${this.tableName}` );
+    debug( `createSchema : ${ this.tableName }` );
     return knexConnection
       .schema
       .hasTable( this.tableName )
@@ -39,7 +39,7 @@ class BaseSchema extends Model
       } )
       .catch( error => 
       {
-        debug( `Error : ${error.message}` );
+        debug( `Error : ${ error.message }` );
         throw error;
       } );
   }

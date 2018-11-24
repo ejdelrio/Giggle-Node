@@ -81,7 +81,12 @@ class CommonWorkItems
       throw new TypeError( "classConstructor" );
     }
 
-    if ( !classInstance instanceof classConstructer )
+    let isStringInstance = typeof classInstance === "string" || classInstance instanceof String;
+    if ( classConstructer === String && !isStringInstance )
+    {
+      throw new TypeError( variableName ? variableName : "classsInstance" );
+    }
+    else if ( !classInstance instanceof classConstructer )
     {
       throw new TypeError( variableName ? variableName : "classsInstance" );
     }
