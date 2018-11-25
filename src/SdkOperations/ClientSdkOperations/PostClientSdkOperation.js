@@ -26,7 +26,6 @@ function CreateParameterContainer( request )
 {
     debug( "CreateParameterContainer" );
     let { userName, passWord, email } = request.body;
-
     try
     {
         ValidateStringIsNotNullOrWhiteSpace( userName, ClientSchema.columnUserName );
@@ -116,12 +115,10 @@ function PostClient( request, response, next )
         .then( token => SendSucessResponse( token, response, next ) )
         .catch( error => next( createError( 400, error.message ) ) );
 }
-
 //==================================================
 
-
 //==================================================
-// PUBLIC 
+// PUBLIC
 //==================================================
 class PostClientSdkOperation extends SdkOperation
 {

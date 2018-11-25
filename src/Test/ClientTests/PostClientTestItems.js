@@ -32,23 +32,17 @@ function ValidPostClientTest()
 
     CommonClientTestItems.CleanseTable()
       .then( () => done() )
-      .catch( done );
+      .catch( done )
   } );
 
   it( "Should return a JSON web token and 204 code", done => 
   {
-    debug( request, response );
     sdkInvocation( request, response, function ( error )  
     {
-      if ( error )
-      {
-        return done( error );
-      }
-
       expect( response.status ).to.equal( 204 );
       expect( typeof response.body ).to.equal( "string" );
-      done();
     } )
+      .then( () => done() )
       .catch( done );
   } );
 }
@@ -82,6 +76,7 @@ function InvalidTestWithMissingParameter( parameterName )
         expect( typeof error.message ).to.equal( "string" );
         expect( error.message ).to.equal( expectedErrorMessage );
       } )
+        .then( () => done )
         .catch( done );
     } );
   }

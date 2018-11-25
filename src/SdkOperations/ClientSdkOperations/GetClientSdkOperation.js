@@ -1,57 +1,67 @@
 "use strict";
 
 const debug = require( "debug" )( "Giggle-Node : GetClientSdkOperation" );
-const { SdkOperation } = require( "../SdkOperation" );
 const createError = require( "http-errors" );
 
-const { ObjectionHelperSinglton } = require( "../../Util/ObjectionSQLHelper" );
-const { knexConnection } = ObjectionHelperSinglton;
-const { BasicAuthentication, ValidateStringIsNotNullOrWhiteSpace } = require( "../../Util//CommonWorkItems" );
+const { SdkOperation } = require( "../SdkOperation" );
 const { ClientSchema } = require( "../../Schema/ClientSchema" );
 const { ErrorMessageConstants } = require( "../../Errors/ErrorMessageConstants" );
-
-function ValidateRequest( request )
-{
-    if ( !request.params )
+const
     {
-        throw new ReferenceError( "params" );
-    }
+        ValidateStringIsNotNullOrWhiteSpace,
+        ValidateParameters,
+        ValidateHeader
+    } = require( "../../Util//CommonWorkItems" );
 
-    ValidateStringIsNotNullOrWhiteSpace( _id, "_id" );
 
-    return _id;
-}
-
-function SendSuccessResponse( clientData, response, next )
+function ParseAuthenticationHeader( request )
 {
-    delete clientData.passWord;
-    delete clientData.token;
-    response.send( clientData );
-    response.status( 200 );
-    next();
-}
+    debug( "ParseAuthenticationHeader" );
+    ValidateParameters( request, "request" );
+    ValidateHeader( headers, "header" );
+    ValidateHeader( header.authorization, "authorization" );
 
+    let loginData = req.headers.authorization.split( ' ' )[ 1 ];
+    ValidateParameters( loginData, "loginData" );
+
+    let decodedLoginData = new Buffer( loginData, 'base64' )
+        .toString()
+        .split( ":" );
+
+    let userName = decodedLoginData[ 0 ];
+    let passWord = decodedLoginData[ 1 ];
+
+    ValidateStringIsNotNullOrWhiteSpace( userName, ClientSchema.columnUserName );
+    ValidateStringIsNotNullOrWhiteSpace( passWord, ClientSchema.columnPassWord );
+
+    request.auth = { userName, passWord };
+}
 function GetClient( request, response, next )
 {
-    let _id;
     try
     {
-        _id = ValidateRequest( request );
+        ParseAuthenticationHeader( request );
     }
     catch ( error )
     {
-        let errorMessage = ErrorMessageConstants.FormatInvalidParameterMessage( error.errorMessage );
-        return Promise.reject( createError( 400, errorMessage ) );
+        return Promise.reject( next( createError( 400, error.message ) ) );
     }
 
-    ClientSchema.QueryClientById( _id )
+    ClientSchema.QueryClientByParam( { [ ClientSchema.columnUserName ]: request.auth.userName } )
         .then( clientData => 
         {
+            debug( "client data" );
             debug( clientData );
+
+            if ( !clientData || !clientData.length )
+            {
+                throw new ReferenceError( ErrorMessageConstants.ResourceNotFound );
+            }
             return clientData;
         } )
-        .then( clientData => SendSuccessResponse( clientData, response, next ) )
-        .catch( error => next( createError( 404, error.message ) ) );
+        .catch( next );
+
+    return next();
 }
 
 class GetClientSdkOperation extends SdkOperation
@@ -59,7 +69,6 @@ class GetClientSdkOperation extends SdkOperation
     constructor()
     {
         super();
-        this.middleWareStack.push( BasicAuthentication );
     }
 
     Invoke()

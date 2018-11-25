@@ -18,6 +18,17 @@ class ClientMock
     return { body };
   }
 
+  get AuthRequestTemplate()
+  {
+    let authorization =
+    {
+      userName: "testUserName",
+      passWord: "testPassword"
+    }
+
+    return { authorization };
+  }
+
   send( data )
   {
     this.body = data;

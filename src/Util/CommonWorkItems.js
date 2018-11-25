@@ -3,6 +3,7 @@
 const debug = require( "debug" )( "Giggle-Node : CommonWorkItems.js" );
 const dotenv = require( "dotenv" ).config();
 const NotImplementedError = require( "../Errors/NotImplementedError" )
+const { ErrorMessageConstants } = require( "../Errors/ErrorMessageConstants" );
 
 class CommonWorkItems
 {
@@ -12,16 +13,6 @@ class CommonWorkItems
     debug( "Entering BearerAuthentication" );
 
     throw new NotImplementedError( "BearerAuthentication" );
-  }
-
-  // Middleware for basic authentication
-  static BasicAuthentication( request, response, next )
-  {
-    debug( "Entering BasicAuthentication" );
-
-    throw new NotImplementedError( "BasicAuthentication" );
-
-    debug( "Exiting BasicAuthentication" )
   }
 
   // Error handling middleware at the end of every call to handle exceptions
@@ -92,6 +83,23 @@ class CommonWorkItems
     }
   }
 
+  static ValidateParameters( objectReference, variableName = "param" )
+  {
+    if ( objectReference === null || objectReference === undefined )
+    {
+      let message = ErrorMessageConstants.FormatInvalidParameterMessage( variableName );
+      throw new ReferenceError( message );
+    }
+  }
+
+  static ValidateHeader( objectReference, variableName = "header" )
+  {
+    if ( objectReference === null || objectReference === undefined )
+    {
+      let message = ErrorMessageConstants.FormatMissingHeaderMessage( variableName );
+      throw new ReferenceError( message );
+    }
+  }
 
 }
 
