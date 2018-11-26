@@ -1,9 +1,13 @@
 "use strict";
 
+require( "dotenv" ).config();
 const debug = require( "debug" )( "Giggle-Node : CommonTestItems.js" );
+const localAddressPath = process.env.LOCAL_ADDRESS_PATH || "localhost";
+const PORT = process.env.PORT || 5000;
 
 class CommonTestItems
 {
+  static get LocalAddressPath() { return `${ localAddressPath }:${ PORT }`; }
   static sqlDuplicateEntryErroHeader() { return "duplicate key value violates unique constraint"; }
   static ParseDuplicatentryError( error )
   {

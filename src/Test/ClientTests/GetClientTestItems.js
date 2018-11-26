@@ -2,13 +2,18 @@
 
 const debug = require( "debug" )( "Giggle-Node : GetClientTestItems.js" );
 const expect = require( "chai" ).expect;
+const superagent = require( "superagent" );
 
 const { ClientMock } = require( "../Mocks/ClientMocks" );
+const { LocalAddressPath } = require( "../CommonTestItems" ).CommonTestItems;
 const { CommonClientTestItems } = require( "./CommonClientTestItems" );
+const server = require( "../../../server" );
+const { ClientLoginPath } = require( "../../Routers/CoreServicePaths" ).CoreServicePaths;
 const { GetClientSdkOperation } =
   require( "../../SdkOperations/ClientSdkOperations/GetClientSdkOperation" );
 const { PostClientSdkOperation } =
   require( "../../SdkOperations/ClientSdkOperations/PostClientSdkOperation" );
+
 
 let postClientOperation = new PostClientSdkOperation().Invoke();
 let getClientOperation = new GetClientSdkOperation().Invoke();
@@ -16,6 +21,7 @@ let getClientOperation = new GetClientSdkOperation().Invoke();
 let mockInstance = new ClientMock();
 let request;
 let response;
+let authRequest;
 
 function InitiateMocks()
 {
@@ -27,10 +33,11 @@ function InitiateMocks()
 
 function WithValidHeadersAndEntity()
 {
+  debug( "WithValidHeadersAndEntity" )
   before( done => 
   {
     InitiateMocks();
-    postClientOperation( request, respone, () =>
+    postClientOperation( request, response, () =>
     {
       expect( true ).to.equal( true );
     } )
@@ -41,25 +48,31 @@ function WithValidHeadersAndEntity()
   after( done =>
   {
     CommonClientTestItems.CleanseTable()
-      .then( () => done )
+      .then( () => done() )
       .catch( done );
   } )
 
   it( "Should return a 200 status code and a new token", done => 
   {
-    getClientOperation( authRequest, response, function ()
-    {
+    let { userName, passWord } = request.body;
+    superagent.get( `${ LocalAddressPath }${ ClientLoginPath }` )
+      .auth( userName, passWord )
+      .end( ( error, result ) => 
+      {
+        if ( error )
+        {
+          return done( error );
+        }
 
-    } )
-      .then( done )
-      .catch( done );
+        done();
+      } );
   } );
 }
 
 function InvokeGetClientTests()
 {
-  describe( "With valid headers and an existing client", WithValidHeaders );
+  describe( "With valid headers and an existing client", WithValidHeadersAndEntity );
 }
 
-module.export = InvokeGetClientTests;
+module.exports = InvokeGetClientTests;
 

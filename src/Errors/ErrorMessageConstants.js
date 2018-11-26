@@ -10,6 +10,8 @@ class ErrorMessageConstants
   static get DuplicateEntry() { return "DUPLICATE_ENTRY"; }
   static get Forbidden() { return "FORBIDDEN"; }
   static get ResourceNotFound() { return "RESOURCE_NOT_FOUND"; }
+  static get InternalError() { return "SERVER_ERROR"; }
+  static get AccessDenied() { return "ACCESS_DENIED"; }
 
   static FormatInvalidParameterMessage( parameterName )
   {

@@ -4,6 +4,7 @@ const debug = require( "debug" )( "Giggle-Node : Client-Operations-test.js" );
 const PostTestInvocation = require( "./ClientTests/PostClientTestItems" );
 const GetTestInvocation = require( "./ClientTests/GetClientTestItems" );
 
+debug( GetTestInvocation );
 function PutClientTests()
 {
 

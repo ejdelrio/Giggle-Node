@@ -1,5 +1,7 @@
 "use strict";
 
+const testUserName = "testUserName";
+const testPassWord = "testPassword";
 class ClientMock
 {
   constructor()
@@ -11,8 +13,8 @@ class ClientMock
   {
     let body =
     {
-      userName: "testUserName",
-      passWord: "testPassword",
+      userName: testUserName,
+      passWord: testPassWord,
       email: "testEmail@test.test"
     };
     return { body };
@@ -20,13 +22,10 @@ class ClientMock
 
   get AuthRequestTemplate()
   {
-    let authorization =
-    {
-      userName: "testUserName",
-      passWord: "testPassword"
-    }
+    let authorization = `Basic ${ testUserName }:${ testPassWord }`
+    let headers = { authorization };
 
-    return { authorization };
+    return { headers };
   }
 
   send( data )
